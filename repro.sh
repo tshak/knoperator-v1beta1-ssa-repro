@@ -17,14 +17,20 @@ function applyOperator() {
 
 applyOperator v1.2.2
 apply "./knativeserving-v1alpha1.yaml"
+sleep 30
 # Repros with or without incremental operator upgrades
-# applyOperator v1.3.2
-# applyOperator v1.4.1
+applyOperator v1.3.2
+sleep 30
+applyOperator v1.4.1
+sleep 30
 applyOperator v1.5.3
 apply "./knativeserving-v1beta1.yaml"
 # Wait for the operator to reconcile, otherwise the bug does not reproduce consitently
 sleep 30
 applyOperator v1.6.1
+# Update the cache for kubectl
+kubectl api-resources
+sleep 30
 # Applying v1beta1 again fails with:
 # Error from server: request to convert CR to an invalid group/version: operator.knative.dev/v1alpha1
 apply "./knativeserving-v1beta1.yaml"
