@@ -1,6 +1,6 @@
-This contains a repro of https://github.com/knative/operator/issues/1184 when upgrading the Knative Operator to `v1.6.1` that was found when debugging https://github.com/knative/operator/issues/1131. This issue seems related. The end result is that it blocks the user from
+This contains a repro of https://github.com/knative/operator/issues/1184 when upgrading the Knative Operator to `v1.6.1` that was found when debugging https://github.com/knative/operator/issues/1131. This issue prevents
 applying a knative CR using [Server-Side Apply](https://kubernetes.io/docs/reference/using-api/server-side-apply/) after upgrading to the Knative Opererator `v1.6.1`.
-This repo contains [a script](./repro.sh) which repor's the issue. The issue seems to be related to converting from `operator.knative.dev/v1alpha1` to `operator.knative.dev/v1beta1`. You may wish to adjust the script to test different combinations of Operator versions and CR versions.
+This repo contains [a script](./repro.sh) which repro's the issue.  You may wish to adjust the script to test different combinations of Operator versions and CR versions.
 
 Automated repro steps:
 1) Create a clean cluster (never had knative installed) e.g. with Kind or Minikube
@@ -12,7 +12,7 @@ Automated repro steps:
 Error from server: request to convert CR to an invalid group/version: operator.knative.dev/v1alpha1
 ```
 
-This appears to be due to a `metadata.managedFields` entry that references `operator.knative.dev/v1alpha1`:
+The issue seems to be related to converting from `operator.knative.dev/v1alpha1` to `operator.knative.dev/v1beta1`. This appears to be due to a `metadata.managedFields` entry that references `operator.knative.dev/v1alpha1` even after applying the `operator.knative.dev/v1beta1` version.
 
 `$ kubectl get knativeserving knative-serving --show-managed-fields=true -n default -o yaml`
 Output (truncated):
