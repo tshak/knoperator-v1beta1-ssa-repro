@@ -1,4 +1,4 @@
-This contains a repro of a bug when upgrading the Knative Operator to `v1.6.1` that was found when debugging https://github.com/knative/operator/issues/1131. This issue seems related. The end result is that it blocks the user from
+This contains a repro of https://github.com/knative/operator/issues/1184 when upgrading the Knative Operator to `v1.6.1` that was found when debugging https://github.com/knative/operator/issues/1131. This issue seems related. The end result is that it blocks the user from
 applying a knative CR using [Server-Side Apply](https://kubernetes.io/docs/reference/using-api/server-side-apply/) after upgrading to the Knative Opererator `v1.6.1`.
 This repo contains [a script](./repro.sh) which repor's the issue. The issue seems to be related to converting from `operator.knative.dev/v1alpha1` to `operator.knative.dev/v1beta1`. You may wish to adjust the script to test different combinations of Operator versions and CR versions.
 
